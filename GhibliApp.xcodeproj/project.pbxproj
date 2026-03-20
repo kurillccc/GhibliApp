@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FCAD3B072F6DA47D0009D8B6 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = FCAD3B062F6DA47D0009D8B6 /* .gitignore */; };
+		FCAD3B0B2F6DA4BB0009D8B6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = FCAD3B0A2F6DA4BB0009D8B6 /* .swiftlint.yml */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		FCAD3AEA2F6DA3870009D8B6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +32,8 @@
 		FCAD3AD72F6DA3850009D8B6 /* GhibliApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GhibliApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCAD3AE92F6DA3870009D8B6 /* GhibliAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GhibliAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCAD3AF32F6DA3870009D8B6 /* GhibliAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GhibliAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCAD3B062F6DA47D0009D8B6 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		FCAD3B0A2F6DA4BB0009D8B6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -79,6 +86,8 @@
 				FCAD3AEC2F6DA3870009D8B6 /* GhibliAppTests */,
 				FCAD3AF62F6DA3870009D8B6 /* GhibliAppUITests */,
 				FCAD3AD82F6DA3850009D8B6 /* Products */,
+				FCAD3B062F6DA47D0009D8B6 /* .gitignore */,
+				FCAD3B0A2F6DA4BB0009D8B6 /* .swiftlint.yml */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +111,7 @@
 				FCAD3AD32F6DA3850009D8B6 /* Sources */,
 				FCAD3AD42F6DA3850009D8B6 /* Frameworks */,
 				FCAD3AD52F6DA3850009D8B6 /* Resources */,
+				FCAD3B0C2F6DA4EC0009D8B6 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -212,6 +222,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCAD3B0B2F6DA4BB0009D8B6 /* .swiftlint.yml in Resources */,
+				FCAD3B072F6DA47D0009D8B6 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +242,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FCAD3B0C2F6DA4EC0009D8B6 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    echo \"🔍 Searching for Swift files...\"\n    \n    SWIFT_FILES=$(find \"${SRCROOT}\" -name \"*.swift\" -type f | head -5)\n    \n    if [ -z \"$SWIFT_FILES\" ]; then\n        echo \"⚠️ No Swift files found in ${SRCROOT}\"\n        echo \"📁 Current directory: $(pwd)\"\n        echo \"📁 Contents:\"\n        ls -la \"${SRCROOT}\"\n        exit 0\n    else\n        echo \"✅ Found Swift files, running SwiftLint\"\n        swiftlint --path \"${SRCROOT}\"\n    fi\nelse\n    echo \"⚠️ SwiftLint not installed\"\n    exit 0\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FCAD3AD32F6DA3850009D8B6 /* Sources */ = {
@@ -416,8 +450,9 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -448,8 +483,9 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
