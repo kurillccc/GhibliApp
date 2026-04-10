@@ -9,8 +9,10 @@ import SwiftUI
 
 struct FilmListView: View {
     
+    // MARK: - Properties
     @State private var filmsViewModel = FilmsViewModel()
     
+    // MARK: - Body
     var body: some View {
         NavigationStack {
             switch filmsViewModel.state {
@@ -22,12 +24,13 @@ struct FilmListView: View {
                 }
             case .loaded(let films):
                 List(films) { film in
-                    Text(film.title)
-                        
+                    NavigationLink(film.title, value: film)
+                }
+                .navigationDestination(for: Film.self) { film in
+                    FilmDetailView(film: film)
                 }
             case .error(let error):
                 Text(error)
-                
             }
         }
         .task {
@@ -37,6 +40,7 @@ struct FilmListView: View {
     
 }
 
+// MARK: - Preview
 #Preview {
     FilmListView()
 }
