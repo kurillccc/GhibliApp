@@ -11,14 +11,16 @@ import Observation
 @Observable
 final class FilmsViewModel {
     
+    // MARK: - Properties
     var state: LoadingState<[Film]> = .idle
-    
     private let service: GhibliService
     
+    // MARK: - Initializers
     init(service: GhibliService = DefaultGhibliService()) {
         self.service = service
     }
     
+    // MARK: - Public Methods
     func fetch() async {
         guard !state.isLoading || state.error != nil else { return }
         
