@@ -5,6 +5,7 @@
 //  Created by Кирилл on 10.04.2026.
 //
 
+import CoreData
 import SwiftUI
 
 struct FilmDetailView: View {
@@ -12,6 +13,11 @@ struct FilmDetailView: View {
     // MARK: - Properties
     let film: Film
     
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \FavoriteFilm.addedAt, ascending: false)],
+        animation: .default
+    ) private var favoriteFilms: FetchedResults<FavoriteFilm>
     @State private var viewModel = FilmDetailViewModel()
     
     // MARK: - Body
@@ -48,6 +54,15 @@ struct FilmDetailView: View {
                     CharacterSectionView(viewModel: viewModel)
                 }
                 .padding()
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                FavoriteButton(
+                    isFavorite: FavoriteFilmsStore.isFavorite(film, in: favoriteFilms)
+                ) {
+                    FavoriteFilmsStore.toggle(film, in: viewContext)
+                }
             }
         }
         .task(id: film) {

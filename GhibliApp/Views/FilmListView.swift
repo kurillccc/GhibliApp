@@ -5,6 +5,7 @@
 //  Created by Кирилл on 21.03.2026.
 //
 
+import CoreData
 import SwiftUI
 
 struct FilmListView: View {
@@ -13,6 +14,12 @@ struct FilmListView: View {
     let state: LoadingState<[Film]>
     @Binding var searchText: String
     let itemsPerPage: Int
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \FavoriteFilm.addedAt, ascending: false)],
+        animation: .default
+    ) private var favoriteFilms: FetchedResults<FavoriteFilm>
     
     // MARK: - Body
     var body: some View {
@@ -32,8 +39,16 @@ struct FilmListView: View {
             } else {
                 List {
                     ForEach(visibleFilms) { film in
-                        NavigationLink(value: film) {
-                            FilmRow(film: film)
+                        HStack(spacing: 12) {
+                            NavigationLink(value: film) {
+                                FilmRow(film: film)
+                            }
+                            
+                            FavoriteButton(
+                                isFavorite: FavoriteFilmsStore.isFavorite(film, in: favoriteFilms)
+                            ) {
+                                FavoriteFilmsStore.toggle(film, in: viewContext)
+                            }
                         }
                     }
                     
@@ -104,12 +119,34 @@ private struct FilmRow: View {
     
 }
 
+struct FavoriteButton: View {
+    
+    // MARK: - Properties
+    let isFavorite: Bool
+    let action: () -> Void
+    
+    // MARK: - Body
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: isFavorite ? "heart.fill" : "heart")
+                .font(.title3)
+                .foregroundStyle(isFavorite ? .red : .secondary)
+                .frame(width: 36, height: 36)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.borderless)
+        .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
+    }
+    
+}
+
 // MARK: - Preview
 #Preview("Screen") {
     FilmsScreen(
         filmsViewModel: FilmsViewModel(service: MockGhibliService()),
         itemsPerPage: 20
     )
+    .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
 
 #Preview("View") {
@@ -120,4 +157,5 @@ private struct FilmRow: View {
             itemsPerPage: 20
         )
     }
+    .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
