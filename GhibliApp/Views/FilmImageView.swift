@@ -36,8 +36,9 @@ struct FilmImageView: View {
                     .resizable()
                     .scaledToFill()
                     .clipped()
-            case .failure(_):
-                Text("Could not get image")
+            case .failure(let error):
+                let _ = print("❌ Ошибка: \(error)")
+                Text(error.localizedDescription)
             @unknown default:
                 fatalError()
             }
@@ -48,5 +49,5 @@ struct FilmImageView: View {
 
 // MARK: - Preview
 #Preview {
-    FilmImageView(urlPath: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/npOnzAbLh6VOIu3naU5QaEcTepo.jpg")
+    FilmImageView(urlPath: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/qG3RYlIVpTYclR9TYIsy8p7m7AT.jpg")
 }
