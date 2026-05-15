@@ -86,10 +86,13 @@ struct SettingsView: View {
 }
 
 enum Appearance: String, CaseIterable, Identifiable {
+    
+    // MARK: - Cases
     case system
     case light
     case dark
     
+    // MARK: - Properties
     var id: String { rawValue }
     
     var title: String {
@@ -115,6 +118,7 @@ enum Appearance: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - Preview
 #Preview("View") {
     SettingsView(
         selectedAppearance: .constant(.system),

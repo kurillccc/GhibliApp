@@ -1,5 +1,5 @@
 //
-//  FavoriteFilmMapper.swift
+//  FavoriteFilmsStore.swift
 //  GhibliApp
 //
 //  Created by Кирилл on 14.05.2026.
@@ -11,6 +11,7 @@ import SwiftUI
 
 struct FavoriteFilmsStore {
     
+    // MARK: - Public Methods
     static func isFavorite(_ film: Film, in favoriteFilms: FetchedResults<FavoriteFilm>) -> Bool {
         favoriteFilms.contains { $0.id == film.id }
     }
@@ -31,6 +32,7 @@ struct FavoriteFilmsStore {
         save(context)
     }
     
+    // MARK: - Private Methods
     private static func fetchFavoriteFilm(id: String, in context: NSManagedObjectContext) -> FavoriteFilm? {
         let request = FavoriteFilm.fetchRequest()
         request.fetchLimit = 1
@@ -57,6 +59,7 @@ struct FavoriteFilmsStore {
 
 extension FavoriteFilm {
     
+    // MARK: - Display Properties
     var displayTitle: String {
         title ?? "Unknown Film"
     }
@@ -85,6 +88,7 @@ extension FavoriteFilm {
         )
     }
     
+    // MARK: - Public Methods
     func update(from film: Film) {
         id = film.id
         title = film.title
@@ -100,6 +104,7 @@ extension FavoriteFilm {
         addedAt = Date()
     }
     
+    // MARK: - Private Helpers
     private var decodedPeople: [String] {
         guard
             let peopleJSON,

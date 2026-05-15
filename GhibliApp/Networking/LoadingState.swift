@@ -8,11 +8,14 @@
 import Foundation
 
 enum LoadingState<T: Equatable>: Equatable {
+    
+    // MARK: - Cases
     case idle
     case loading
     case loaded(T)
     case error(String)
     
+    // MARK: - Properties
     var isLoading: Bool {
         if case .loading = self { return true }
         return false

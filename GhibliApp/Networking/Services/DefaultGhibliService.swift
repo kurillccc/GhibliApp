@@ -9,6 +9,7 @@ import Foundation
 
 struct DefaultGhibliService: GhibliService {
     
+    // MARK: - Private Methods
     func fetch<T: Decodable>(from URLString: String, type: T.Type) async throws -> T {
         guard let url = URL(string: URLString) else {
             throw APIError.invalidResponse
@@ -30,6 +31,7 @@ struct DefaultGhibliService: GhibliService {
         }
     }
     
+    // MARK: - GhibliService
     func fetchFilms() async throws -> [Film] {
         let url = "https://ghibliapi.vercel.app/films"
         return try await fetch(from: url, type: [Film].self)

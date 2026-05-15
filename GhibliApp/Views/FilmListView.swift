@@ -39,12 +39,9 @@ struct FilmListView: View {
             } else {
                 List {
                     ForEach(visibleFilms) { film in
-                        HStack(spacing: 12) {
-                            NavigationLink(value: film) {
-                                FilmRow(film: film)
-                            }
-                            
-                            FavoriteButton(
+                        NavigationLink(value: film) {
+                            FilmRow(
+                                film: film,
                                 isFavorite: FavoriteFilmsStore.isFavorite(film, in: favoriteFilms)
                             ) {
                                 FavoriteFilmsStore.toggle(film, in: viewContext)
@@ -71,6 +68,7 @@ struct FilmListView: View {
         }
     }
     
+    // MARK: - Private Methods
     private func filteredFilms(from films: [Film]) -> [Film] {
         let trimmedSearchText = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -91,6 +89,8 @@ private struct FilmRow: View {
     
     // MARK: - Properties
     let film: Film
+    let isFavorite: Bool
+    let toggleFavorite: () -> Void
     
     // MARK: - Body
     var body: some View {
@@ -99,9 +99,13 @@ private struct FilmRow: View {
                 .frame(width: 100, height: 150)
             
             VStack(alignment: .leading) {
-                HStack {
+                HStack(alignment: .center) {
                     Text(film.title)
                         .bold()
+                    
+                    Spacer()
+                    
+                    FavoriteButton(isFavorite: isFavorite, action: toggleFavorite)
                 }
                 .padding(.bottom, 5)
                 
@@ -119,43 +123,3 @@ private struct FilmRow: View {
     
 }
 
-struct FavoriteButton: View {
-    
-    // MARK: - Properties
-    let isFavorite: Bool
-    let action: () -> Void
-    
-    // MARK: - Body
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: isFavorite ? "heart.fill" : "heart")
-                .font(.title3)
-                .foregroundStyle(isFavorite ? .red : .secondary)
-                .frame(width: 36, height: 36)
-                .contentShape(Rectangle())
-        }
-        .buttonStyle(.borderless)
-        .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
-    }
-    
-}
-
-// MARK: - Preview
-#Preview("Screen") {
-    FilmsScreen(
-        filmsViewModel: FilmsViewModel(service: MockGhibliService()),
-        itemsPerPage: 20
-    )
-    .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-}
-
-#Preview("View") {
-    NavigationStack {
-        FilmListView(
-            state: .loading,
-            searchText: .constant(""),
-            itemsPerPage: 20
-        )
-    }
-    .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-}
