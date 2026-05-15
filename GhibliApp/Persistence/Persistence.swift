@@ -8,6 +8,8 @@
 import CoreData
 
 struct PersistenceController {
+    
+    // MARK: - Properties
     static let shared = PersistenceController()
 
     @MainActor
@@ -31,6 +33,7 @@ struct PersistenceController {
 
     let container: NSPersistentContainer
 
+    // MARK: - Initializers
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "GhibliApp")
         if inMemory {

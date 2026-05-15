@@ -9,6 +9,7 @@ import Foundation
 
 struct Person: Identifiable, Decodable, Equatable {
     
+    // MARK: - Properties
     let id: String
     let name: String
     let gender: String
@@ -19,6 +20,7 @@ struct Person: Identifiable, Decodable, Equatable {
     let species: String
     let url: String
     
+    // MARK: - CodingKeys
     enum CodingKeys: String, CodingKey {
         case id, name, gender, age, films, species, url
         case eyeColor = "eye_color"

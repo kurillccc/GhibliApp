@@ -9,6 +9,7 @@ import Foundation
 
 struct Film: Codable, Identifiable, Equatable, Hashable {
     
+    // MARK: - Properties
     let id: String
     let title: String
     let description: String
@@ -23,6 +24,7 @@ struct Film: Codable, Identifiable, Equatable, Hashable {
     
     let people: [String]
     
+    // MARK: - CodingKeys
     enum CodingKeys: String, CodingKey {
         case id, title, image, description, director, producer, people
         

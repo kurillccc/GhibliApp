@@ -9,11 +9,13 @@ import Foundation
 
 struct MockGhibliService: GhibliService {
     
+    // MARK: - Nested Types
     private struct SampleData: Decodable {
         let films: [Film]
         let people: [Person]
     }
     
+    // MARK: - Private Methods
     private func loadSampleData() throws -> SampleData {
         guard let url = Bundle.main.url(forResource: "SampleData", withExtension: "json") else {
             throw APIError.invalideURL
@@ -29,7 +31,7 @@ struct MockGhibliService: GhibliService {
         }
     }
     
-    //MARK: - Protocol conformance
+    // MARK: - GhibliService
     
     func fetchFilms() async throws -> [Film] {
         let data = try loadSampleData()
@@ -49,7 +51,7 @@ struct MockGhibliService: GhibliService {
         return data.people.first!
     }
     
-    //MARK: - preview/testing
+    // MARK: - Preview Helpers
     
     func fetchFilm() -> Film {
         let data = try! loadSampleData()

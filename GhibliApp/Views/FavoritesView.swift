@@ -31,12 +31,8 @@ struct FavoritesView: View {
             } else {
                 List {
                     ForEach(filteredFilms) { favoriteFilm in
-                        HStack(spacing: 12) {
-                            NavigationLink(value: favoriteFilm.filmValue) {
-                                FavoriteFilmRow(favoriteFilm: favoriteFilm)
-                            }
-                            
-                            FavoriteButton(isFavorite: true) {
+                        NavigationLink(value: favoriteFilm.filmValue) {
+                            FavoriteFilmRow(favoriteFilm: favoriteFilm) {
                                 FavoriteFilmsStore.remove(favoriteFilm, from: viewContext)
                             }
                         }
@@ -49,6 +45,7 @@ struct FavoritesView: View {
         }
     }
     
+    // MARK: - Private Properties
     private var filteredFavoriteFilms: [FavoriteFilm] {
         let trimmedSearchText = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         let films = Array(favoriteFilms)
@@ -64,6 +61,7 @@ struct FavoritesView: View {
         }
     }
     
+    // MARK: - Private Methods
     private func deleteFavorites(at offsets: IndexSet, from favoriteFilms: [FavoriteFilm]) {
         offsets
             .map { favoriteFilms[$0] }
@@ -76,6 +74,7 @@ private struct FavoriteFilmRow: View {
     
     // MARK: - Properties
     let favoriteFilm: FavoriteFilm
+    let removeFavorite: () -> Void
     
     // MARK: - Body
     var body: some View {
@@ -84,9 +83,15 @@ private struct FavoriteFilmRow: View {
                 .frame(width: 100, height: 150)
             
             VStack(alignment: .leading) {
-                Text(favoriteFilm.displayTitle)
-                    .bold()
-                    .padding(.bottom, 5)
+                HStack(alignment: .top) {
+                    Text(favoriteFilm.displayTitle)
+                        .bold()
+                    
+                    Spacer(minLength: 8)
+                    
+                    FavoriteButton(isFavorite: true, action: removeFavorite)
+                }
+                .padding(.bottom, 5)
                 
                 Text("Directed by \(favoriteFilm.displayDirector)")
                     .font(.subheadline)
@@ -102,6 +107,7 @@ private struct FavoriteFilmRow: View {
     
 }
 
+// MARK: - Preview
 #Preview("Screen") {
     FavoritesScreen()
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)

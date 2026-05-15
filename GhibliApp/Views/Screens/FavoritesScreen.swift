@@ -34,6 +34,7 @@ struct FavoritesScreen: View {
     
 }
 
+// MARK: - Preview
 #Preview {
     FavoritesScreen()
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)

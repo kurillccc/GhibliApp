@@ -75,9 +75,11 @@ struct FilmDetailView: View {
 // MARK: - Info Row Component
 fileprivate struct InfoRow: View {
     
+    // MARK: - Properties
     let label: String
     let value: String
     
+    // MARK: - Body
     var body: some View {
         GridRow {
             Text(label)
@@ -96,8 +98,10 @@ fileprivate struct InfoRow: View {
 // MARK: - Character Section Component
 fileprivate struct CharacterSectionView:  View {
     
+    // MARK: - Properties
     let viewModel: FilmDetailViewModel
     
+    // MARK: - Body
     var body: some View {
         GroupBox {
             VStack(alignment: .leading, spacing: 12) {

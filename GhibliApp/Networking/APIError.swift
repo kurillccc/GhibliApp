@@ -8,11 +8,14 @@
 import Foundation
 
 enum APIError: LocalizedError {
+    
+    // MARK: - Cases
     case invalideURL
     case invalidResponse
     case decoding(Error)
     case networkError(Error)
     
+    // MARK: - Properties
     var errorDescription: String? {
         switch self {
         case .invalideURL:
